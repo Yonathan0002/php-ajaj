@@ -155,7 +155,7 @@ function AjaxRequest(config) {
 
     // Build parameters string
     var parameters = new Array() ;
-    // Iterate on parameters
+    // Iterate on parametersC
     for (var i in this.parameters) {
         // Escape parameter value with encodeURIComponent()
         var escaped_parameter_value = encodeURIComponent(this.parameters[i]);

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Suggestions de noms en AJAX</title>
+    </head>
+    <body>
+        <form name="f">
+            <input name="nom" type="text" />
+        </form>
+        <div>Suggestions:</div>
+        <script src="ajaxrequest.js"></script>
+        <script>
+            // Fonction appelée au chargement complet de la page
+            window.onload = function () {
+                // Désactivation de l'envoi du formulaire
+                document.forms['f'].onsubmit = function () { return false ; }
+
+                // Fonction appelée lors d'une modification de la saisie
+                document.forms['f'].elements['nom'].onkeyup = function() {
+                    console.log('keyup');
+
+
+
+
+
+
+
+
+                    new AjaxRequest(
+                    {
+                        url        : "test_request.php",
+                        method     : 'get',
+                        handleAs   : 'text',
+                        parameters : { q : 'test&a=12' }
+                    })
+
+                }
+            }
+
+        </script>
+    </body>
+</html>
