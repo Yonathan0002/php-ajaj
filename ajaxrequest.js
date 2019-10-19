@@ -124,9 +124,9 @@ function AjaxRequest(config) {
 ////////////////////////////////////////////////////////////////////////////////
 // A ECRIRE
         // On complete (readyState == 4 or "complete")
-        if (requestThis.transport.readyState == 4 || requestThis.transport.readyState == "complete") {
+        if (requestThis.transport.readyState === 4 || requestThis.transport.readyState === "complete") {
             // On success result (Response code == 200)
-            if (resquetThis.transport.status == 200) {
+            if (requestThis.transport.status === 200) {
                 // Check response expected mime type ('text', 'json' or 'xml')
                 var result = null ;
                 switch (requestThis.handleAs) {
@@ -157,9 +157,10 @@ function AjaxRequest(config) {
     var parameters = new Array() ;
     // Iterate on parameters
     for (var i in this.parameters) {
-
         // Escape parameter value with encodeURIComponent()
+        var escaped_parameter_value = encodeURIComponent(this.parameters[i]);
         // Store 'parameter_name=escaped_parameter_value' in array 'parameters'
+        parameters.push(i + "=" + escaped_parameter_value);
 ////////////////////////////////////////////////////////////////////////////////
 // A ECRIRE
     }
@@ -170,15 +171,20 @@ function AjaxRequest(config) {
 ////////////////////////////////////////////////////////////////////////////////
 // A ECRIRE
         // Open transport
+        this.transport.open(this.method, this.url + "?" + parametersString, this.asynchronous);
         // Send request
+        this.transport.send();
     }
     else {
     // Request method is 'post'
 ////////////////////////////////////////////////////////////////////////////////
 // A ECRIRE
         // Open transport
+        this.transport.open(this.method, this.url, this.asynchronous);
         // Set content type request header
+        this.transport.setRequestHeader("content-type","application/x-www-form-urlencoded");
         // Send request with parameters
+        this.transport.send(parametersString);
     }
 
     // Get XmlHttpRequest object
