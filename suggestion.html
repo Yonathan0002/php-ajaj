@@ -9,30 +9,34 @@
             <input name="nom" type="text" />
         </form>
         <div>Suggestions:</div>
+        <span id="results"></span>
         <script src="ajaxrequest.js"></script>
         <script>
             // Fonction appelée au chargement complet de la page
             window.onload = function () {
                 // Désactivation de l'envoi du formulaire
                 document.forms['f'].onsubmit = function () { return false ; }
-
+                let request = null;
                 // Fonction appelée lors d'une modification de la saisie
                 document.forms['f'].elements['nom'].onkeyup = function() {
-                    console.log('keyup');
-
-
-
-
-
-
-
-
-                    new AjaxRequest(
+                    
+                    if(request instanceof AjaxRequest)
                     {
-                        url        : "test_request.php",
+                        request.cancel();
+                    }
+                    request = new AjaxRequest(
+                    {
+                        url        : "liste_artistes.php",
                         method     : 'get',
                         handleAs   : 'text',
-                        parameters : { q : 'test&a=12' }
+                        asynchronous : true,
+                        parameters : { q : document.forms['f'].elements['nom'].value, wait: true },
+                        onSuccess: function (res) {
+                            document.getElementById('results').innerHTML = res;
+                        },
+                        onError: function (res) {
+
+                        }
                     })
 
                 }

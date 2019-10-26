@@ -1,4 +1,6 @@
 <?php
+
+
 require_once('autoload.include.php') ;
 $q = $_GET['q'];
 
@@ -6,7 +8,7 @@ $q = $_GET['q'];
 $stmt = MyPDO::getInstance()->prepare(<<<SQL
     SELECT name
     FROM artist
-    WHERE name LIKE CONCAT("%",:q,"%")
+    WHERE UPPER(name) LIKE UPPER(CONCAT("%",:q,"%"))
     ORDER BY 1;
 SQL
 );
@@ -24,3 +26,7 @@ while (($artiste = $stmt->fetch()) !== false) {
 
 
 echo $res;
+// On demande à PHP de se reposer quelques secondes pour introduire une latence
+if (isset($_REQUEST['q'])) {
+    usleep(rand(0, 20) * 100000) ;
+}
